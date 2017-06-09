@@ -29,7 +29,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.EulerAngle;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -65,14 +64,12 @@ public class DisplayLocation {
     }
 
     private void loadHologram(Updater updater) {
-        this.hologramLocation = new HologramLocation(getLocation());
+        this.hologramLocation = new HologramLocation(getLocation().clone().add(0, 2.5d, 0));
         for (int i = 0; i < display.getLore().size(); i++) {
             String line = ChatColor.translateAlternateColorCodes('&', display.getLore().get(i));
-            hologramLocation.addText(new PlainText(line),
-                    DisplayProperties.create(display.getLore().size() - i, NeverRemover.never()));
+            addText(hologramLocation, new PlainText(line), display.getLore().size() - i);
         }
-        hologramLocation.addText(new ChatColorText(new PlainText(getPositionString())).color(getPositionColor()).bold(true),
-                DisplayProperties.create(0, NeverRemover.never()));
+        addText(hologramLocation, new ChatColorText(new PlainText(getPositionString())).color(getPositionColor()).bold(true), 0);
 
     }
 
@@ -81,7 +78,7 @@ public class DisplayLocation {
     }
 
     private synchronized Location getLocation() {
-        return new Location(world, display.getLocation().getX(), display.getLocation().getY(), display.getLocation().getZ());
+        return new Location(world, display.getLocation().getX(), display.getLocation().getY(), display.getLocation().getZ(), display.getLocation().getYaw(), display.getLocation().getPitch());
     }
 
     private void scheduleUpdates() {
@@ -93,8 +90,7 @@ public class DisplayLocation {
     }
 
     private void place() {
-        ArmorStand armorStand = world.spawn(new Location(world, display.getLocation().getX(), display
-                .getLocation().getY(), display.getLocation().getZ()), ArmorStand.class, armorStand1 -> armorStand1.setMetadata("doNotDespawn", new FixedMetadataValue(Main.getInstance(), "")));
+        ArmorStand armorStand = world.spawn(getLocation(), ArmorStand.class, armorStand1 -> armorStand1.setMetadata("doNotDespawn", new FixedMetadataValue(Main.getInstance(), "")));
         armorStand.setLeftArmPose(new EulerAngle(0d, 0d, 3.83972d));
         armorStand.setArms(true);
         armorStand.setBasePlate(true);
@@ -173,5 +169,12 @@ public class DisplayLocation {
         public Observable<List<TextComponent>> getTextObservable() {
             return subject;
         }
+    }
+
+
+    private void addText(HologramLocation hologramLocation, HUDText text, double priority) {
+        hologramLocation.addText(
+                text, DisplayProperties.create(priority, NeverRemover.never()));
+        hologramLocation.teleport(hologramLocation.getLocation().clone().add(0, 0.25d, 0));
     }
 }

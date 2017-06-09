@@ -7,6 +7,16 @@ public class YamlVector {
     private double x;
     private double y;
     private double z;
+    private float yaw;
+    private float pitch;
+
+    public float getYaw() {
+        return yaw;
+    }
+
+    public float getPitch() {
+        return pitch;
+    }
 
     public double getX() {
         return x;
@@ -18,6 +28,14 @@ public class YamlVector {
 
     public double getZ() {
         return z;
+    }
+
+    public void setPitch(float pitch) {
+        this.pitch = pitch;
+    }
+
+    public void setYaw(float yaw) {
+        this.yaw = yaw;
     }
 
     public void setX(double x) {
