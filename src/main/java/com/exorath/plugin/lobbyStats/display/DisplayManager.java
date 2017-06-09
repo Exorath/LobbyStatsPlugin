@@ -1,12 +1,11 @@
 package com.exorath.plugin.lobbyStats.display;
 
+import com.exorath.clickents.ClickEntAPI;
 import com.exorath.plugin.lobbyStats.Main;
+import com.exorath.plugin.lobbyStats.PositionProvider;
 import com.exorath.plugin.lobbyStats.res.DisplayPackage;
-import com.exorath.service.stats.api.StatsServiceAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;
@@ -22,13 +21,15 @@ import java.util.HashMap;
  */
 public class DisplayManager implements Listener {
     private static final Yaml YAML = new Yaml();
-    private StatsServiceAPI statsServiceAPI;
+    private PositionProvider positionProvider;
+    private ClickEntAPI clickEntAPI;
 
     private HashMap<World, DisplayWorld> displayWorlds = new HashMap<>();
 
-    public DisplayManager(StatsServiceAPI statsServiceAPI) {
+    public DisplayManager(PositionProvider positionProvider, ClickEntAPI clickEntAPI) {
+        this.positionProvider = positionProvider;
+        this.clickEntAPI = clickEntAPI;
         Bukkit.getWorlds().forEach(world -> loadWorld(world));
-        this.statsServiceAPI = statsServiceAPI;
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -51,6 +52,6 @@ public class DisplayManager implements Listener {
 
 
     private void loadWorldWithDisplayPackage(World world, DisplayPackage displayPackage) {
-        displayWorlds.put(world, new DisplayWorld(statsServiceAPI, world, displayPackage));
+        displayWorlds.put(world, new DisplayWorld(positionProvider, clickEntAPI, world, displayPackage));
     }
 }

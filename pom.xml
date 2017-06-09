@@ -74,7 +74,7 @@
         <dependency>
             <groupId>com.github.exorath</groupId>
             <artifactId>StatsService</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.8</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.yaml/snakeyaml -->
         <dependency>
@@ -83,6 +83,17 @@
             <version>1.18</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.Exorath</groupId>
+            <artifactId>ClickableEntities</artifactId>
+            <version>0.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.exorath</groupId>
+            <artifactId>ExoHUD</artifactId>
+            <version>1.0.13</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

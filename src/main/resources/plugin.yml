@@ -1,4 +1,4 @@
 name: LobbyStatsPlugin
 version: 0.0.1
-main: com.exorath.plugin.connector.Main
-depend: [BaseLobby]
+main: com.exorath.plugin.lobbyStats.Main
+depend: [ExoHUD]
