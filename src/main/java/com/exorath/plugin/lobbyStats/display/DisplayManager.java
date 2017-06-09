@@ -4,22 +4,27 @@ import com.exorath.clickents.ClickEntAPI;
 import com.exorath.plugin.lobbyStats.Main;
 import com.exorath.plugin.lobbyStats.PositionProvider;
 import com.exorath.plugin.lobbyStats.res.DisplayPackage;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldLoadEvent;
+import org.json.JSONObject;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by toonsev on 6/5/2017.
  */
 public class DisplayManager implements Listener {
+    private static final Gson GSON = new Gson();
     private static final Yaml YAML = new Yaml();
     private PositionProvider positionProvider;
     private ClickEntAPI clickEntAPI;
@@ -42,7 +47,7 @@ public class DisplayManager implements Listener {
         if (!config.exists() || !config.isFile())
             return;
         try (FileInputStream fis = new FileInputStream(config)) {
-            DisplayPackage displayPackage = YAML.loadAs(fis, DisplayPackage.class);
+            DisplayPackage displayPackage = GSON.fromJson(new JSONObject((Map<String, Object>) YAML.load(fis)).toString(), DisplayPackage.class);
             loadWorldWithDisplayPackage(world, displayPackage);
         } catch (IOException e) {
             e.printStackTrace();

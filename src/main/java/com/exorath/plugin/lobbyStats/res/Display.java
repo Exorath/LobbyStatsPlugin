@@ -9,7 +9,7 @@ public class Display {
     private String stat;
     private List<String> lore;
     private int position;
-    private YamlVector Location;
+    private YamlVector location;
 
     public String getStat() {
         return stat;
@@ -24,7 +24,7 @@ public class Display {
     }
 
     public YamlVector getLocation() {
-        return Location;
+        return location;
     }
 
     public void setStat(String stat) {
@@ -40,6 +40,6 @@ public class Display {
     }
 
     public void setLocation(YamlVector location) {
-        Location = location;
+        this.location = location;
     }
 }

@@ -1,7 +1,11 @@
 package com.exorath.plugin.lobbyStats.res;
 
+import com.google.gson.Gson;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.yaml.snakeyaml.Yaml;
+
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,7 +16,7 @@ public class DisplayPackageTest {
     @Test
     public void testYamlParsing(){
         Yaml yaml = new Yaml();
-        DisplayPackage displayPackage = yaml.loadAs("gameId: cakewars\n" +
+        Map<String, Object> map = (Map<String, Object>) yaml.load("gameId: cakewars\n" +
                 "displays:\n" +
                 "  display1:\n" +
                 "    stat: wins\n" +
@@ -32,7 +36,10 @@ public class DisplayPackageTest {
                 "    location:\n" +
                 "      x: 5\n" +
                 "      y: 12.5\n" +
-                "      z: 7\n", DisplayPackage.class);
+                "      z: 7\n");
+        JSONObject json = new JSONObject(map);
+        DisplayPackage displayPackage = new Gson().fromJson(json.toString(), DisplayPackage.class);
+
         assertEquals(displayPackage.getGameId(), "cakewars");
         assertEquals(displayPackage.getDisplays().size(), 2);
         assertEquals(displayPackage.getDisplays().get("display2").getStat(), "wins");

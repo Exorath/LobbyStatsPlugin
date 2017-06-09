@@ -1,7 +1,7 @@
 # LobbyStatsPlugin
 This plugin is responsible for showing stats of a game in it's lobby.
 
-
+## lobbystats.yml in map folder:
 ```yaml
 gameId: cakewars
 displays:

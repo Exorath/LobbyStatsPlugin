@@ -10,6 +10,8 @@ public class DisplayPackage {
     private String gameId;
     private Map<String, Display> displays;
 
+    public DisplayPackage() {}
+
     public String getGameId() {
         return gameId;
     }
