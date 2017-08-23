@@ -115,6 +115,10 @@ public class DisplayLocation {
     private synchronized TopPlayer getPlayer() {
         int amount = display.getPosition() <= 3 ? 3 : display.getPosition();
         GetTopPlayersRes res = positionProvider.getTopPlayers(new GetTopPlayersReq(gameId, display.getStat(), amount));
+        if(res.getTopPlayers() == null){
+            System.out.println("GetTopPlayers returned null");
+            return null;
+        }
         if (res.getTopPlayers().size() < display.getPosition())
             return null;
         return res.getTopPlayers().get(display.getPosition() - 1);
